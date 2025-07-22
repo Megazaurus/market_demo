@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('product_id');
-            $table->dateTime('added_at');
             $table->integer('count');
             $table->timestamps();
         });

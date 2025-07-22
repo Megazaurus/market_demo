@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('carts_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('product_id');
-            $table->dateTime('added_at');
+            $table->foreignId('product_id');            
             $table->integer('count');
             $table->decimal('price');
             $table->timestamps();
