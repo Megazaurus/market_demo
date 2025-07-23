@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_recomendation', function (Blueprint $table) {
+        Schema::create('product_recommendation', function (Blueprint $table) {
             $table->id();
             $table->foreignId('main_product_id');
             $table->foreignId('support_product_id');
