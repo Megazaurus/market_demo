@@ -18,7 +18,7 @@ return new class extends Migration
            $table->decimal('promotion_price');
            $table->boolean('is_new');
            $table->dateTime('deleted_at')->nullable();
-           $table->boolean('is_avaliable');
+           $table->boolean('is_available')->default(true);
            $table->foreignId('category_id');
            $table->string(column: 'description')->nullable();
            $table->timestamps();    

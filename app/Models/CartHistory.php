@@ -5,31 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CartHistory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'product_id',
-        'count',
-        'created_at',
+        'user_id'        
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
-
-    // 🔁 Покупка принадлежит пользователю
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // 🔁 Покупка относится к конкретному товару
-    public function product(): BelongsTo
+    public function cartProductHistory(): HasMany
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(CartProductHistory::class);
     }
+
 }
