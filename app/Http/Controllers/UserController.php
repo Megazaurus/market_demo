@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\IndexRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class User extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-        $page = $request->input("page",1);
-        $count = $request->input("count",10);
-        $user = User::paginate(perPage: $count , page: $page);
+        $data = $request->validated();
+        $page = $request->input("page", 1);
+        $count = $request->input("count", 10);
+
+        $user = User::query()
+            ->when(array_key_exists('name', $data) && $data['name'], fn($query) => $query->where('name', 'like', '%' . $data['name'] . '%'))
+            ->when(array_key_exists('email', $data) && $data['email'], fn($query) => $query->where('email', 'like', '%' . $data['email'] . '%'))
+            ->paginate(perPage: $count, page: $page);
+
         return response()->json($user);
+        // $page = $request->input("page",1);
+        // $count = $request->input("count",10);
+        // $user = User::paginate(perPage: $count , page: $page);
+        // return response()->json($user);
     }
 
     /**
@@ -31,7 +42,7 @@ class User extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create($request->all());        
+        $user = User::create($request->all());
         return response()->json($user, 201);
     }
 
@@ -40,7 +51,7 @@ class User extends Controller
      */
     public function show(User $user)
     {
-      return response()->json($user);
+        return response()->json($user);
     }
 
     /**
@@ -57,7 +68,7 @@ class User extends Controller
     public function update(Request $request, User $user)
     {
         $user->update($request->all());
-        return response()->json($user,202);
+        return response()->json($user, 202);
     }
 
     /**
@@ -66,6 +77,6 @@ class User extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 }

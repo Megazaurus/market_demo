@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Review\IndexRequest;
 use Illuminate\Http\Request;
 use App\Models\Review;
 
@@ -11,11 +12,19 @@ class ReviewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
-        $page = $request->input("page",1);
-        $count = $request->input("count",10);
-        $review = Review::paginate(perPage: $count , page: $page);
+        $data = $request->validated();
+        $page = $request->input("page", 1);
+        $count = $request->input("count", 10);
+
+        $review = Review::query()
+            ->when(array_key_exists('description', $data) && $data['description'], fn($query) => $query->where('description', 'like', '%' . $data['description'] . '%'))
+            ->when(array_key_exists('user_id', $data) && $data['user_id'], fn($query) => $query->where('user_id', $data['user_id']))
+            ->when(array_key_exists('product_id', $data) && $data['product_id'], fn($query) => $query->where('product_id', $data['product_id']))
+            ->paginate(perPage: $count, page: $page);
+        ;
+
         return response()->json($review);
     }
 
@@ -32,7 +41,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        $review = Review::create($request->all());        
+        $review = Review::create($request->all());
         return response()->json($review, 201);
 
     }
@@ -59,7 +68,7 @@ class ReviewController extends Controller
     public function update(Request $request, Review $review)
     {
         $review->update($request->all());
-        return response()->json($review,202);
+        return response()->json($review, 202);
     }
 
     /**
@@ -68,6 +77,6 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         $review->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 }
