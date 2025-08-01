@@ -8,13 +8,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductImageController;
+
 
 
 Route::apiResource('category', CategoryController::class);
 
 Route::apiResource('products', ProductController::class);
 
-//Route::apiResource('products_image', ProductImageController::class);
+Route::apiResource('product-images', ProductImageController::class);
 
 Route::apiResource('reviews', ReviewController::class);
 

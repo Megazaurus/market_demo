@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('src_img');
             $table->boolean('is_main');
             $table->integer('weight');

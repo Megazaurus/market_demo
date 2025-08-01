@@ -11,7 +11,7 @@ class IndexImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class IndexImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'image' => 'required|image|max:5120',
+            'product_id' => 'nullable|integer',
+            'src_img' => 'nullable|string',
+            'is_main' => 'nullable|integer',
+            'weight' => 'nullable|integer',
         ];
     }
 }
