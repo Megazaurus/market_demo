@@ -9,6 +9,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ReviewImageController;
 
 
 
@@ -17,6 +18,8 @@ Route::apiResource('category', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 
 Route::apiResource('product-images', ProductImageController::class);
+
+Route::apiResource('review-images', ReviewImageController::class);
 
 Route::apiResource('reviews', ReviewController::class);
 

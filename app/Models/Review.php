@@ -17,7 +17,7 @@ class Review extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datatime',
+        'created_at' => 'datetime',
     ];
 
     public function user()
