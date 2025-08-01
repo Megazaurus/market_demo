@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Review;
+namespace App\Http\Requests\auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexImageRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class IndexImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'  => 'nullable|integer',
-            'review_id'  => 'nullable|integer',
-            'src_img'  => 'nullable|string',
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required|string|max:255',
         ];
     }
 }

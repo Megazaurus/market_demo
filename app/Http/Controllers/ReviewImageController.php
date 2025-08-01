@@ -25,7 +25,7 @@ class ReviewImageController extends Controller
         $path = $request->file('image')->store('images', 'public');
 
         $image = ReviewImage::create([
-            'user_id' => $request->input('user_id'),+
+            'user_id' => $request->input('user_id'),
             'review_id' => $request->input('review_id'),
             'src_img' => $path,
 
@@ -40,9 +40,12 @@ class ReviewImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(ReviewImage $path)
     {
-        //
+        return response()->json([
+            'message' => 'Фоточка',
+            'path' => '/storage/' . $path,
+        ]);
     }
 
     /**

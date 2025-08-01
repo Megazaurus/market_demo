@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\CategoryController;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -10,22 +9,30 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ReviewImageController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 
 
+Route::post('register', [RegisterController::class, 'register']);
 
-Route::apiResource('category', CategoryController::class);
+Route::post('login', [LoginController::class, 'login']);
 
-Route::apiResource('products', ProductController::class);
+Route::middleware('auth:sanctum')->post('/logout', LogoutController::class);
 
-Route::apiResource('product-images', ProductImageController::class);
+Route::middleware('auth:sanctum')->apiResource('category', CategoryController::class);
 
-Route::apiResource('review-images', ReviewImageController::class);
+Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
 
-Route::apiResource('reviews', ReviewController::class);
+Route::middleware('auth:sanctum')->apiResource('product-images', ProductImageController::class);
 
-Route::apiResource('carts', CartController::class);
+Route::middleware('auth:sanctum')->apiResource('review-images', ReviewImageController::class);
 
-Route::apiResource('users', UserController::class);
+Route::middleware('auth:sanctum')->apiResource('reviews', ReviewController::class);
+
+Route::middleware('auth:sanctum')->apiResource('carts', CartController::class);
+
+Route::middleware('auth:sanctum')->apiResource('users', UserController::class);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
