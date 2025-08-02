@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\IndexRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->only(['store', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

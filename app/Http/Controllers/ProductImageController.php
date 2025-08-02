@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\IndexImageRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductImage;
 
 
 class ProductImageController extends Controller
 {
+        public function __construct()
+    {
+        $this->middleware('admin')->only(['store', 'update', 'destroy']);
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +33,7 @@ class ProductImageController extends Controller
         $image = ProductImage::create([
             'product_id' => $request->input('product_id'),
             'src_img' => $path,
-            'is_main' => $request->input('is_main',false),
+            'is_main' => $request->input('is_main', false),
             'weight' => $request->input('weight', 0),
         ]);
 

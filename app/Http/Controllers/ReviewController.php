@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Review\IndexRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\Review;
 
 
 class ReviewController extends Controller
 {
+        public function __construct()
+    {
+        $this->middleware('admin')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -51,6 +57,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
+        $review->load('images');
         return response()->json($review);
     }
 

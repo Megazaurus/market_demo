@@ -14,6 +14,9 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 
 
+Route::middleware('auth:sanctum')->put('/users/{user}/role', [UserController::class, 'updateRole']);
+
+
 Route::post('register', [RegisterController::class, 'register']);
 
 Route::post('login', [LoginController::class, 'login']);

@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\IndexRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('admin')->only(['store', 'update', 'destroy']);
+    }
+
     public function index(IndexRequest $request)
     {
         $data = $request->validated();
@@ -63,6 +71,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Deleted',
+            204
+        ]);
     }
 }

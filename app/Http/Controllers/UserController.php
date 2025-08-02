@@ -3,14 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\IndexRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|string|in:user,admin',
+        ]);
+
+        $user->role = $request->input('role');
+        $user->save();
+
+        return response()->json(['message' => 'Тепер Адмін']);
+    }
+
     public function index(IndexRequest $request)
     {
         $data = $request->validated();
