@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Review\IndexRequest;
+use App\Http\Requests\Review\StoreRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
 
 class ReviewController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         $this->middleware('admin')->only(['destroy']);
     }
@@ -45,9 +47,11 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $review = Review::create($request->all());
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::id();
+        $review = Review::create($validated);
         return response()->json($review, 201);
 
     }

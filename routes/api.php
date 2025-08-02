@@ -12,10 +12,11 @@ use App\Http\Controllers\ReviewImageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartHistoryController;
+
 
 
 Route::middleware('auth:sanctum')->put('/users/{user}/role', [UserController::class, 'updateRole']);
-
 
 Route::post('register', [RegisterController::class, 'register']);
 
@@ -34,6 +35,10 @@ Route::middleware('auth:sanctum')->apiResource('review-images', ReviewImageContr
 Route::middleware('auth:sanctum')->apiResource('reviews', ReviewController::class);
 
 Route::middleware('auth:sanctum')->apiResource('carts', CartController::class);
+
+Route::middleware('auth:sanctum')->apiResource('cart-histories', CartHistoryController::class);
+
+Route::middleware('auth:sanctum')->post('/cart/checkout', [CartController::class, 'checkout']);
 
 Route::middleware('auth:sanctum')->apiResource('users', UserController::class);
 
