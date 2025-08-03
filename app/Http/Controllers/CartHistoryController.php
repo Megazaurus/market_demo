@@ -11,19 +11,18 @@ class CartHistoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(IndexRequest $request)
+
+    public function index(Request $request)
     {
-        $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
-        $cartHistories = CartHistory::create($validated);
-        return response()->json($cartHistories, 201);
+        $userId = $request->user()->id;
 
-        // $userId = $request->user()->id;
-        // $histories = CartHistory::with('cartProductHistories.product')
-        //     ->where('user_id', $userId)
-        //     ->get();
+        $histories = CartHistory::with(['cartProductHistories.product'])
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        // return response()->json($histories);
+        return response()->json($histories);
+
     }
 
     /**
@@ -39,8 +38,8 @@ class CartHistoryController extends Controller
      */
     public function show(CartHistory $cartHistory)
     {
-    $cartHistory->load('cartProductHistories.product');
-    return response()->json($cartHistory);
+        $cartHistory->load('cartProductHistories.product');
+        return response()->json($cartHistory);
     }
 
     /**

@@ -20,7 +20,7 @@ class CartHistory extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function cartProductHistory(): HasMany
+    public function cartProductHistories(): HasMany
     {
         return $this->hasMany(CartProductHistory::class);
     }
